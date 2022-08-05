@@ -25,10 +25,10 @@ import ujson
 import utime
 import urequests
 
-lat=40.649320
-lon=-73.973880
-key='9517c473e38a62b82afbae19965c603c'
-url="https://api.openweathermap.org/data/2.5/weather?lat=40.649320&lon=-73.973880&appid=9517c473e38a62b82afbae19965c603c&units=imperial"
+lat=LAT
+lon=LON
+key='YOUR_API_KEY'
+url="https://api.openweathermap.org/data/2.5/weather?lat=lat&lon=lon&appid=key&units=imperial"
 
 while True:
 
