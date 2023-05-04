@@ -2,10 +2,10 @@ from machine import  RTC
 import time
 import ntptime
 
-print("Local time before synchronization：%s" % str(time.localtime()))
+print(f"Local time before synchronization：{str(time.localtime())}")
 ntptime.host = "time.google.com"
 ntptime.settime()   # This sets the RTC to UTC.
-print("Local time after synchronization：%s" % str(time.localtime()))
+print(f"Local time after synchronization：{str(time.localtime())}")
 
 
 """ Credit 
@@ -25,22 +25,21 @@ utc_time = time.time()
 # Offset UTC by timezone using 3600 seconds per hour.
 local_time = utc_time + 3600 * timezone
 # Get local time's datetime tuple.
-yy, mo, dd, hh, mm, ss, wkd, yrd = [d for d in time.localtime(local_time)]
+yy, mo, dd, hh, mm, ss, wkd, yrd = list(time.localtime(local_time))
 # Set the RTC to local time.  (I don't think the uP docs are exactly right about this.)
 RTC().datetime((yy, mo, dd, 0, hh, mm, ss, 0))
 now = RTC().datetime()
 now_day = str(DAYS[now[3]])[:3]
 now_date = '%2.2d/%2.2d/%2.2d' % (now[1], now[2], now[0])
-now_day_date = now_day + '. ' + now_date
+now_day_date = f'{now_day}. {now_date}'
 
 now4 = now[4]
 if clockmode == 24:
     am_pm = ''
+elif now[4] >= 13:
+    am_pm = '  PM'
+    now4 = now[4] - 12
+elif now[4] == 0:
+    now4 = 12
 else:
-    if now[4] >= 13:
-        am_pm = '  PM'
-        now4 = now[4] - 12
-    elif now[4] == 0:
-        now4 = 12
-    else:
-        am_pm = '  AM'
+    am_pm = '  AM'
